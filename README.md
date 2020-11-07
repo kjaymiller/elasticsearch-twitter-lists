@@ -1,5 +1,5 @@
 # Elastic Twitter Lists
-## Visualize Twitter lists Data via kibana
+## Visualize Twitter lists Data via Kibana
 
 ![Kibana Tweets Visualization](https://ik.imagekit.io/cxazzw3yew/twitter-data-kibana.png?tr=w-650)
 
@@ -15,8 +15,8 @@
 * Twitter Developer Account and SECRET AND ACCESS KEY FOR PROJECT
   * Save as `$TWITTER_ACCESS_KEY` and `$TWITTER_SECRET_KEY` respectively
 
-* elasticsearch and kibana instances
-  * Save elasticsearch cluster host as `$ES_HOST` if not `localhost`
+* Elasticsearch and Kibana instances
+  * Save Elasticsearch cluster host as `$ES_HOST` if not `localhost`
 
 ## Quickstart
 
