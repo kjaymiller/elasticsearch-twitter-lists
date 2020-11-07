@@ -23,6 +23,8 @@
 * Install requirements `pip install -r requirements.txt`
 * run `python es_twitter_list init <TWITTERLIST> <INDEXNAME>`
 
+[![asciicast](https://asciinema.org/a/8lnUCpYqt9FalwB3jPvexfRHz.svg)](https://asciinema.org/a/8lnUCpYqt9FalwB3jPvexfRHz)
+
 ### To Update Data
 * run `python es_twitter_list update <TWITTERLIST> <INDEXNAME>`
 
