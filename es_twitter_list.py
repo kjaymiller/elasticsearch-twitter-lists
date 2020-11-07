@@ -1,3 +1,4 @@
+import typing
 import typer
 import tweepy
 import os
@@ -24,15 +25,16 @@ def get_data(**kwargs):
         yield json_data
 
 
-def bulk_add(**kwargs):
-    elasticsearch.helpers.bulk(client=client, index=index, actions=get_data(list_id=list_id, **kwargs))
+def bulk_add(es_index, **kwargs):
+    elasticsearch.helpers.bulk(client=client, index=es_index, actions=get_data(**kwargs))
 
 
 @app.command()
 def init(
         *,
-        list_id: int,
-        es_index: str,
+        list_id:int = typer.Argument(...),
+        es_index:str = typer.Argument(...),
+        max_id: typing.Optional[int] = typer.Argument(None),
         include_rts: bool=False,
         include_entities: bool=False,
         ):
@@ -41,13 +43,13 @@ def init(
     kwargs={
         "list_id": list_id,
         "include_rts": include_rts,
-        "include_entities"include_entities,
+        "include_entities": include_entities,
         }
 
     if max_id: # Not necessary but can be used to limit your range
         kwargs['max_id'] = max_id
 
-    bulk_add(**kwargs)
+    bulk_add(es_index, **kwargs)
 
 def get_latest_tweet(es_index):
     q = {
@@ -64,11 +66,12 @@ def get_latest_tweet(es_index):
     return latest_tweet_id
 
 
+@app.command()
 def update(
-        list_id:int,
-        es_index:str,
-        since_id: typer.Optional[int]=None,
-        max_id: typer.Optional[int]=None,
+        list_id:int = typer.Argument(...),
+        es_index:str = typer.Argument(...),
+        since_id: typing.Optional[int] = typer.Argument(None),
+        max_id: typing.Optional[int] = typer.Argument(None),
         include_rts: bool=False,
         include_entities: bool=False,
         ):
@@ -88,7 +91,7 @@ def update(
         kwargs['max_id'] = max_id
 
     typer.echo(f"fetching results from {last_tweet}")
-    bulk_add(**kwargs)
+    bulk_add(es_index, **kwargs)
 
 if __name__ == '__main__':
     app()
