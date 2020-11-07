@@ -24,7 +24,7 @@ def get_data(**kwargs):
         yield json_data
 
 
-def bulk_add(**kwargs)
+def bulk_add(**kwargs):
     elasticsearch.helpers.bulk(client=client, index=index, actions=get_data(list_id=list_id, **kwargs))
 
 
@@ -37,11 +37,16 @@ def init(
         include_entities: bool=False,
         ):
     """Create a new index for a Twitter List"""
+
     kwargs={
         "list_id": list_id,
         "include_rts": include_rts,
         "include_entities"include_entities,
         }
+
+    if max_id: # Not necessary but can be used to limit your range
+        kwargs['max_id'] = max_id
+
     bulk_add(**kwargs)
 
 def get_latest_tweet(es_index):
@@ -62,8 +67,8 @@ def get_latest_tweet(es_index):
 def update(
         list_id:int,
         es_index:str,
-        since_id: int=0,
-        max_id: int=0,
+        since_id: typer.Optional[int]=None,
+        max_id: typer.Optional[int]=None,
         include_rts: bool=False,
         include_entities: bool=False,
         ):
@@ -71,6 +76,16 @@ def update(
 
     if not since_id:
         since_id = get_latest_tweet(es_index)
+
+    kwargs={
+        "list_id": list_id,
+        "include_rts": include_rts,
+        "include_entities": include_entities,
+        "since_id": since_id
+        }
+
+    if max_id: # Not necessary but can be used to limit your range
+        kwargs['max_id'] = max_id
 
     typer.echo(f"fetching results from {last_tweet}")
     bulk_add(**kwargs)
