@@ -1,5 +1,7 @@
 # Elastic Twitter Lists
-## Observe twitter lists via elasticsearch 
+## Visualize Twitter lists Data via kibana
+
+![Kibana Tweets Visualization](https://ik.imagekit.io/cxazzw3yew/twitter-data-kibana.png?tr=w-650)
 
 ## Requirements 
 
