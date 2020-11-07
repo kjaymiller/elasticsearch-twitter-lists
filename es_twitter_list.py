@@ -62,7 +62,7 @@ def get_latest_tweet(es_index):
             }
           ]
         }
-    latest_tweet_id = client.search(index=index, body=q)['hits']['hits'][0]['_id']
+    latest_tweet_id = client.search(index=es_index, body=q)['hits']['hits'][0]['_id']
     return latest_tweet_id
 
 
@@ -90,7 +90,7 @@ def update(
     if max_id: # Not necessary but can be used to limit your range
         kwargs['max_id'] = max_id
 
-    typer.echo(f"fetching results from {last_tweet}")
+    typer.echo(f"fetching results from {since_id=}")
     bulk_add(es_index, **kwargs)
 
 if __name__ == '__main__':
